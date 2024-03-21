@@ -38,9 +38,10 @@ public class GamePanel extends JPanel implements ActionListener{
 
 	public void startGame() {
 		newApple();
-		running=true;
+		running = true;
 		timer = new Timer(DELAY, this);
 		timer.start();
+		
 	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -89,11 +90,43 @@ public class GamePanel extends JPanel implements ActionListener{
 			x[0] = x[0] + UNIT_SIZE;
 			break;
 		}
+		System.out.println("Moving");
 	}
 	public void checkApple() {
 		
 	}
-	public void checkCollision() {
+	public void checkCollisions() {
+		//check if head collides with body, x= head
+		for(int i = bodyParts; i>0; i--) {
+			if((x[0] == x[i])&& (y[0] == y[i])) {
+				running = false;
+				System.out.println("broke");
+				System.out.println(i);
+			} 
+		}
+		//check if head collides left
+		if(x[0] < 0) {
+			running = false;
+			System.out.println("left");
+		}
+		//check if head collides right
+		if(x[0] > SCREEN_WIDTH) {
+			running = false;
+			System.out.println("right");
+		}
+		//check if head collides top
+		if(y[0] < 0) {
+			running = false;
+			System.out.println("top");
+		}
+		//check if head collides bottom
+		if(y[0] > SCREEN_HEIGHT) {
+			running = false;
+			System.out.println("btm");
+		}
+		if(!running) {
+			timer.stop();
+		}
 		
 	}
 	public void gameOver(Graphics g) {
@@ -103,7 +136,13 @@ public class GamePanel extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+		if(running) {
+			move();
+			checkApple();
+			checkCollisions();
+			
+		}
+		repaint();
 	}
 	
 	
