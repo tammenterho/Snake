@@ -26,6 +26,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	Timer timer;
 	Random random;
 	
+	
 
 	GamePanel() {
 		random = new Random();
@@ -38,7 +39,14 @@ public class GamePanel extends JPanel implements ActionListener{
 
 	public void startGame() {
 		newApple();
+		applesEaten = 0;
+	    bodyParts = 6;
+	    direction = 'R';
 		running = true;
+		  for (int i = 0; i < bodyParts; i++) {
+		        x[i] = 0;
+		        y[i] = 0;
+		    }
 		timer = new Timer(DELAY, this);
 		timer.start();
 		
@@ -143,6 +151,8 @@ public class GamePanel extends JPanel implements ActionListener{
 		
 	}
 	public void gameOver(Graphics g) {
+		
+		
 		// Score
 		g.setColor(Color.red);
 		g.setFont(new Font("Ink Free", Font.BOLD, 40));
@@ -154,6 +164,13 @@ public class GamePanel extends JPanel implements ActionListener{
 		g.setFont(new Font("Ink Free", Font.BOLD, 75));
 		FontMetrics metrics2 = getFontMetrics(g.getFont());
 		g.drawString("Game Over", (SCREEN_WIDTH - metrics2.stringWidth("Game Over"))/2, SCREEN_HEIGHT/2);
+		// try again
+		g.setColor(Color.red);
+		g.setFont(new Font("Ink Free", Font.BOLD, 40));
+		FontMetrics metrics3 = getFontMetrics(g.getFont());
+		g.drawString("Try again? Hit enter", (SCREEN_WIDTH - metrics3.stringWidth("Try again? Hit enter"))/2, SCREEN_HEIGHT/2+100);
+		
+		
 	}
 	
 	@Override
@@ -193,6 +210,9 @@ public class GamePanel extends JPanel implements ActionListener{
 					direction = 'D';
 				}
 				break;
+			case KeyEvent.VK_ENTER:
+				running=true;
+				startGame();
 			}
 		
 		}
